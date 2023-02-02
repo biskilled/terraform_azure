@@ -1,0 +1,5 @@
+project = "msapi"
+environment = "dev"
+location = "East US"
+git_repo = "https://github.com/<username>/<repo-name>"
+git_prod_brunch = "main"
