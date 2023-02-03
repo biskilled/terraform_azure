@@ -34,8 +34,9 @@ jobs:
           source venv/bin/activate
 
       - name: Install dependencies
-        run: echo "Hallo, path is .... "
-        run: pip install -r requirements.txt
+        run: |
+          echo "Hallo, path is .... "
+          pip install -r requirements.txt
         
       # Optional: Add step to run tests here
 
