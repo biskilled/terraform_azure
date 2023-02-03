@@ -18,7 +18,7 @@ resource "azurerm_resource_group" "resource_group" {
 
 resource "azurerm_storage_account" "storage_account" {
   name                     = "${var.project}${var.environment}acc"
-  resource_group_name     = azurerm_resource_group.resource_group.name
+  resource_group_name      = azurerm_resource_group.resource_group.name
   location                 = var.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
@@ -35,13 +35,13 @@ resource "azurerm_service_plan" "service_plan" {
 
 
 resource "azurerm_linux_function_app" "function_app" {
-  name                     = "${var.project}-${var.environment}-function-app"
-  resource_group_name      = azurerm_resource_group.resource_group.name
-  location                 = azurerm_resource_group.resource_group.location
-  storage_account_name     = azurerm_storage_account.storage_account.name
-  storage_account_access_key= azurerm_storage_account.storage_account.primary_access_key
-  service_plan_id     = azurerm_service_plan.service_plan.id
-  
+  name                       = "${var.project}-${var.environment}-function-app"
+  resource_group_name        = azurerm_resource_group.resource_group.name
+  location                   = azurerm_resource_group.resource_group.location
+  storage_account_name       = azurerm_storage_account.storage_account.name
+  storage_account_access_key = azurerm_storage_account.storage_account.primary_access_key
+  service_plan_id            = azurerm_service_plan.service_plan.id
+
 
   app_settings = {}
 

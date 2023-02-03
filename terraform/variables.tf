@@ -1,31 +1,31 @@
 variable "project" {
-  type = string
+  type        = string
   description = "Project name"
-  default = "project"
+  default     = "project"
 }
 
 variable "environment" {
-  type = string
+  type        = string
   description = "Environment (dev / stage / prod)"
-  default = "dev"
+  default     = "dev"
 }
 
 variable "location" {
-  type = string
+  type        = string
   description = "Azure region to deploy module to"
-  default = "East US"
+  default     = "East US"
 }
 
 variable "git_repo" {
-  type = string
+  type        = string
   description = "Git repo url"
-  default = "https://github.com/<username>/<repo-name>"
+  default     = "https://github.com/<username>/<repo-name>"
 }
 
 variable "git_prod_brunch" {
-  type = string
+  type        = string
   description = "Git production brunch name"
-  default = "main"
+  default     = "main"
 }
 
 
