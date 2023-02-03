@@ -1,0 +1,38 @@
+name: Deploy to Azure
+
+on:
+  pull_request:
+    branches:
+      - main
+
+env:
+  AZURE_WEBAPP_NAME: msapi-dev-function-app
+  AZURE_WEBAPP_SLOT_NAME: dev
+  AZURE_WEBAPP_PRODUCTION_SLOT_NAME: production
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy to dev slot
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        slot-name: ${{ env.AZURE_WEBAPP_SLOT_NAME }}
+        publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+
+    - name: Swap dev and production slots
+      uses: azure/webapps-swap@v1
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        source-slot-name: ${{ env.AZURE_WEBAPP_SLOT_NAME }}
+        target-slot-name: ${{ env.AZURE_WEBAPP_PRODUCTION_SLOT_NAME }}

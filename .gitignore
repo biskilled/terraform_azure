@@ -134,3 +134,4 @@ old/
 .vscode/
 *.tfstate
 *.tfstate.backup
+*.txt
