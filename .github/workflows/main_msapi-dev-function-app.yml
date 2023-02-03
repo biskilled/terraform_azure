@@ -35,6 +35,8 @@ jobs:
 
       - name: Install dependencies
         run: |
+          echo "$GITHUB.REPOSITORY"
+          echo "$GITHUB.REPOSITORY_OWNER"
           echo "Hallo, path is .... "
           pip install -r requirements.txt
         
