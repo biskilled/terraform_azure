@@ -40,17 +40,20 @@ resource "azurerm_linux_function_app" "function_app" {
   location                 = azurerm_resource_group.resource_group.location
   storage_account_name     = azurerm_storage_account.storage_account.name
   storage_account_access_key= azurerm_storage_account.storage_account.primary_access_key
-  service_plan_id         = azurerm_service_plan.service_plan.id
+  service_plan_id     = azurerm_service_plan.service_plan.id
+  
 
-  app_settings = {
-    "FUNCTIONS_WORKER_RUNTIME" = "python"
-  }
+  app_settings = {}
 
   tags = {
     environment = var.environment
   }
 
-  site_config {}
+  site_config {
+    application_stack {
+      python_version = "3.9"
+    }
+  }
 }
 
 /*
