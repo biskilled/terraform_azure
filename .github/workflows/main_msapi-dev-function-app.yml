@@ -2,16 +2,22 @@
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 # More info on Python, GitHub Actions, and Azure Functions: https://aka.ms/python-webapps-actions
 
-name: Build and deploy Python project to Azure Function App - msapi-dev-function-app
+name: Build and deploy to Azure Function App - msapi-dev-function-app
 
 on:
+  workflow_run:
+    workflows: ["deploy resources using Terraform"]
+    types:
+      - completed
   push:
     branches:
       - main
+    paths:
+      - 'msapi-dev-function-app/**'
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'msapi-dev-function-app' # set this to the path to your web app project, defaults to the repository root
   PYTHON_VERSION: '3.9' # set this to the python version to use (supports 3.6, 3.7, 3.8)
 
 jobs:
