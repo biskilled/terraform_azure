@@ -1,4 +1,4 @@
-name: 'Terraform'   #Deploy sources 
+name: deploy resources using Terraform    
 
 on:
   push:
