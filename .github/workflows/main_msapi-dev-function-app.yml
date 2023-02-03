@@ -11,7 +11,7 @@ on:
       - completed
   push:
     branches:
-      - main
+      - dev
     paths:
       - 'msapi-dev-function-app/**'
   workflow_dispatch:
@@ -71,6 +71,6 @@ jobs:
           app-name: 'msapi-dev-function-app'
           slot-name: 'dev'
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CAAC044DC4B149F482FA079DEB2CBCB2 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DEV }}
           scm-do-build-during-deployment: true
           enable-oryx-build: true
