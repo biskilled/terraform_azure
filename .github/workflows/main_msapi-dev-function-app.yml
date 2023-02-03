@@ -5,15 +5,20 @@
 name: Build and deploy to Azure Function App - msapi-dev-function-app
 
 on:
+  workflow_run:
+    workflows: ["deploy resources using Terraform"]
+    types:
+      - completed
+    branches:
+      - dev
+    paths:
+      - 'msapi-dev-function-app/**'
   push:
     branches:
       - dev
     paths:
       - 'msapi-dev-function-app/**'
-  workflow_run:
-    workflows: ["deploy resources using Terraform"]
-    types:
-      - completed
+  
   workflow_dispatch:
 
 env:

@@ -7,6 +7,9 @@ on:
       - dev
     pull_request:
       - main
+      
+  workflow_dispatch:
+
 
 jobs:
   terraform:
