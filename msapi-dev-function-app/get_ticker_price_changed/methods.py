@@ -4,8 +4,8 @@ import logging
 import socket
 
 def _invoke_api (api_name, ticker, start_date, end_date=None):
-    logging.info (f"Host name Tal::::: {socket.gethostname()}")
-    function_url = f"https://{socket.gethostname().split('.')[0]}/api/{api_name}?ticker={ticker}&start_date={start_date}"
+    
+    function_url = f"https://{req.host.split('.')[0]}/api/{api_name}?ticker={ticker}&start_date={start_date}"
 
     if end_date:
         function_url +=f"&end_date={end_date}"

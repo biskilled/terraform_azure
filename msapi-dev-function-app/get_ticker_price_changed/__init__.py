@@ -8,7 +8,7 @@ from .methods import get_ticker_price_changed
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
-    logging.info(f"TAL::: {func.HttpRequest.url()}")
+    logging.info(f"TAL::: {req.url}, {req.host.split('.')[0]}")
                  
     ticker = req.params.get('ticker')
     start_date = req.params.get('start_date')
