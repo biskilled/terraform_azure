@@ -1,4 +1,5 @@
 import logging
+import json
 
 import azure.functions as func
 
@@ -23,12 +24,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     
     
     if ticker:
-        logging.info ("get_tickers: Ticker:{ticker}, Start_date:{start_date}, End_date:{end_date}")
+        logging.info (f"init:main: start to get_tickers: Ticker:{ticker}, Start_date:{start_date}, End_date:{end_date}")
         api = get_tickers_marketstack()
         res = api.get_tickers_OHLCV(ticker=ticker, start_date=start_date, end_date=end_date)
-        return func.HttpResponse(res, status_code=200)
+        return func.HttpResponse(json.dumps(res), status_code=200)
     
     else:
         err = {"error":"Ticker is not provided"}
         logging.info (err)
-        return func.HttpResponse(err, status_code=400)
+        return func.HttpResponse(json.dumps(err), status_code=400)

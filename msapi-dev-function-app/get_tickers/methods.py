@@ -76,7 +76,7 @@ class get_tickers_marketstack():
 
         current_start_date = start_date
 
-        logging.info (f"TICKER {ticker}, Start_date: {start_date.strftime(self.date_format)}, End_date:{end_date.strftime(self.date_format)}")
+        logging.info (f"get_tickers_OHLCV: TICKER {ticker}, Start_date: {start_date.strftime(self.date_format)}, End_date:{end_date.strftime(self.date_format)}")
         while current_start_date < end_date:
             current_end_date = current_start_date + datetime.timedelta(days=self.batch_size - 1)
             if current_end_date > end_date:
