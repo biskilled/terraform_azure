@@ -1,11 +1,16 @@
 import requests
 import json
 import logging  
-import socket
+import urllib.parse
 
-def _invoke_api (api_name, ticker, start_date, end_date=None):
-    
-    function_url = f"https://{req.host.split('.')[0]}/api/{api_name}?ticker={ticker}&start_date={start_date}"
+def _get_host (url):
+    url_parts = urllib.parse.urlparse(url)
+    return url_parts.hostname
+
+def _invoke_api (url, api_name, ticker, start_date, end_date=None):
+    url_host = _get_host(url)
+    logging.info (f"_invoke_api: Using URL {url_host}")
+    function_url = f"https://{url_host}/api/{api_name}?ticker={ticker}&start_date={start_date}"
 
     if end_date:
         function_url +=f"&end_date={end_date}"
@@ -28,12 +33,12 @@ def price_changed (ticker, result):
     else:
         return {'error':f"{ticker}: Cannot find any data in {result}"}    
 
-def get_ticker_price_changed(ticker, start_date, end_date=None):
+def get_ticker_price_changed(current_url, ticker, start_date, end_date=None):
     logging.info (f"get_ticker_price_changed in: Ticker:{ticker}, Start_date:{start_date}, End_date:{end_date}")
     if not ticker:
         err = f"Must provide ticker {ticker}"
         logging.info (err)
         return {"error":err}
 
-    result = _invoke_api (api_name='get_tickers', ticker=ticker, start_date=start_date, end_date=end_date)
+    result = _invoke_api (url=current_url, api_name='get_tickers', ticker=ticker, start_date=start_date, end_date=end_date)
     return price_changed (ticker=ticker, result=result)
