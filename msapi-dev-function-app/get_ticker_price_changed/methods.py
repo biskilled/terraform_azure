@@ -10,7 +10,10 @@ def _get_host (url):
 def _invoke_api (url, api_name, ticker, start_date, end_date=None):
     url_host = _get_host(url)
     logging.info (f"_invoke_api: Using URL {url_host}")
-    function_url = f"https://{url_host}/api/{api_name}?ticker={ticker}&start_date={start_date}"
+    function_url = f"https://{url_host}/api/{api_name}?ticker={ticker}"
+    
+    if start_date:
+        function_url +=f"&start_date={start_date}"
 
     if end_date:
         function_url +=f"&end_date={end_date}"
