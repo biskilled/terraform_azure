@@ -27,6 +27,7 @@ def price_changed (ticker, result):
         return {'error':f"{ticker}: Cannot find any data in {result}"}    
 
 def get_ticker_price_changed(ticker, start_date, end_date=None):
+    logging.info (f"get_ticker_price_changed: Ticker:{ticker}, Start_date:{start_date}, End_date:{end_date}")
     if not ticker:
         err = "Must provide ticker {ticker}"
         logging,info (err)

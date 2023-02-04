@@ -22,11 +22,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             start_date=req_body.get('start_date')
             end_date=req_body.get('end_date')
 
-    logging.info ("get_ticker_price_changed: Ticker:{ticker}, Start_date:{start_date}, End_date:{end_date}")
-
 
     if ticker:
-        logging.info ("get_ticker_price_changed: Ticker:{ticker}, Start_date:{start_date}, End_date:{end_date}")
+        logging.info (f"get_ticker_price_changed::init:main: Ticker:{ticker}, Start_date:{start_date}, End_date:{end_date}")
         data = get_ticker_price_changed(ticker=ticker, start_date=start_date, end_date=end_date)
         return func.HttpResponse(json.dumps(data), status_code=200)
     else:
