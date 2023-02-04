@@ -1,9 +1,11 @@
 import requests
 import json
 import logging  
+import socket
 
 def _invoke_api (api_name, ticker, start_date, end_date=None):
-    function_url = f"https://{req.host.split('.')[0]}/api/{api_name}?ticker={ticker}&start_date={start_date}"
+    logging.info (f"Host name Tal::::: {socket.gethostname()}")
+    function_url = f"https://{socket.gethostname().split('.')[0]}/api/{api_name}?ticker={ticker}&start_date={start_date}"
 
     if end_date:
         function_url +=f"&end_date={end_date}"
@@ -27,7 +29,7 @@ def price_changed (ticker, result):
         return {'error':f"{ticker}: Cannot find any data in {result}"}    
 
 def get_ticker_price_changed(ticker, start_date, end_date=None):
-    logging.info (f"get_ticker_price_changed: Ticker:{ticker}, Start_date:{start_date}, End_date:{end_date}")
+    logging.info (f"get_ticker_price_changed in: Ticker:{ticker}, Start_date:{start_date}, End_date:{end_date}")
     if not ticker:
         err = f"Must provide ticker {ticker}"
         logging.info (err)
