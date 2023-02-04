@@ -8,10 +8,11 @@ API Key = 07a347c645898d0bda9f41e7ed0f9e5d
 
 import requests
 import datetime
+import os
 import logging
 
-#todo: store API_KEY IN AZURE SECRET 
-API_KEY = '07a347c645898d0bda9f41e7ed0f9e5d'
+#todo: MS_API_KEY API_KEY IN AZURE SECRET 
+API_KEY = os.environ['MS_API_KEY'] #'07a347c645898d0bda9f41e7ed0f9e5d'
 
 class get_tickers_marketstack():
     def __init__ (self, api_key=API_KEY, date_format='%Y-%m-%d'):
