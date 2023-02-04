@@ -1,3 +1,5 @@
+### INSTALL FIRST TIME CONFIGURATION ###
+
 terraform {
   required_providers {
     azurerm = {
@@ -20,12 +22,12 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "resource_group" {
-  name     = "${var.project}_${var.environment}_rg"
+  name     = "${var.project}_rg"
   location = var.location
 }
 
 resource "azurerm_storage_account" "storage_account" {
-  name                     = "${var.project}${var.environment}acc"
+  name                     = "${var.project}acc"
   resource_group_name      = azurerm_resource_group.resource_group.name
   location                 = var.location
   account_tier             = "Standard"
@@ -34,7 +36,7 @@ resource "azurerm_storage_account" "storage_account" {
 
 
 resource "azurerm_service_plan" "service_plan" {
-  name                = "${var.project}_${var.environment}_plan"
+  name                = "${var.project}_plan"
   location            = var.location
   resource_group_name = azurerm_resource_group.resource_group.name
   os_type             = "Linux"
@@ -60,7 +62,6 @@ resource "azurerm_linux_function_app" "function_app" {
   site_config {
     application_stack {
       python_version = "3.9"
-      WEBSITE_RUN_FROM_PACKAGE=1 
     }
   }
 }

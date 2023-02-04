@@ -135,3 +135,4 @@ old/
 *.tfstate
 *.tfstate.backup
 *.txt
+tests.py
