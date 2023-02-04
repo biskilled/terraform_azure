@@ -29,8 +29,8 @@ def price_changed (ticker, result):
 def get_ticker_price_changed(ticker, start_date, end_date=None):
     logging.info (f"get_ticker_price_changed: Ticker:{ticker}, Start_date:{start_date}, End_date:{end_date}")
     if not ticker:
-        err = "Must provide ticker {ticker}"
-        logging,info (err)
+        err = f"Must provide ticker {ticker}"
+        logging.info (err)
         return {"error":err}
 
     result = _invoke_api (api_name='get_tickers', ticker=ticker, start_date=start_date, end_date=end_date)
