@@ -28,7 +28,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         return func.HttpResponse(res, status_code=200)
     
     else:
-        res = {"error":"Ticker is not provided"}
-        logging.info (res)
+        err = {"error":"Ticker is not provided"}
+        logging.info (err)
         return func.HttpResponse(err, status_code=400)
     
