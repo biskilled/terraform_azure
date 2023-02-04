@@ -12,8 +12,9 @@ import os
 import logging
 
 #todo: MS_API_KEY API_KEY IN AZURE SECRET 
-API_KEY = os.environ['MS_API_KEY'] #'07a347c645898d0bda9f41e7ed0f9e5d'
+API_KEY = os.environ.get('MS_API_KEY') #'07a347c645898d0bda9f41e7ed0f9e5d'
 
+logging.info (os.environ)
 class get_tickers_marketstack():
     def __init__ (self, api_key=API_KEY, date_format='%Y-%m-%d'):
         self.api_key = api_key
