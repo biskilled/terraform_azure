@@ -1,5 +1,6 @@
 import logging
 import json 
+import urllib.parse
 
 import azure.functions as func
 
@@ -9,7 +10,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
     logging.info(f"TAL::: {req.url}")
-    logging.info (f"TAL::: {req.host.split('.')[0]}")
+    url_parts = urllib.parse.urlparse(current_url)
+    logging.info (f"TAL::: {url_parts.hostname}")
                  
     ticker = req.params.get('ticker')
     start_date = req.params.get('start_date')
