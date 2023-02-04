@@ -27,8 +27,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     if ticker:
         logging.info ("get_ticker_price_changed: Ticker:{ticker}, Start_date:{start_date}, End_date:{end_date}")
         data = get_ticker_price_changed(ticker=ticker, start_date=start_date, end_date=end_date)
-        return func.HttpResponse(res, status_code=200)
+        return func.HttpResponse(data, status_code=200)
     else:
-        res = {"error":"Ticker is not provided"}
-        logging.info (res)
+        err = {"error":"Ticker is not provided"}
+        logging.info (err)
         return func.HttpResponse(err, status_code=400)
