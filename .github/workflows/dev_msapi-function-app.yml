@@ -9,14 +9,14 @@ on:
     branches:
       - dev
       
-  #workflow_run:
-  #  workflows: ["Terraform deploy resources"]
-  #  types:
-  #    - completed
-  #  branches:
-  #    - dev
-  #  paths:
-  #    - 'msapi-function-app/**'
+  workflow_run:
+    workflows: ["Terraform deploy resources"]
+    types:
+      - completed
+    branches:
+      - dev
+    paths:
+      - 'msapi-function-app/**'
   
   workflow_dispatch:
 

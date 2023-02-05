@@ -2,7 +2,6 @@
 provide a stock ticker and be returned a JSON response of end-of-day pricing
 API https://marketstack.com
 user: myzevel@yahoo.com pass: yoyo4Market!
-to move: API Key = 07a347c645898d0bda9f41e7ed0f9e5d
 """
 
 
