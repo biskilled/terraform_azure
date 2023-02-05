@@ -8,10 +8,10 @@ terraform {
   required_version = ">=1.3.6"
 
   backend "azurerm" {
-    resource_group_name  = var.resource_group_name
-    storage_account_name = var.storage_account_name
-    container_name       = var.storage_container_name
-    key                  = terraform.tfstate
+    resource_group_name  = "tfstatesrg"
+    storage_account_name = "tfstatessa1"
+    container_name       = "tfstatessac"
+    key                  = "tfstatessac.tfstate"
   }
 }
 
@@ -19,45 +19,77 @@ provider "azurerm" {
   features {}
 }
 
+
+resource "azurerm_resource_group" "resource_group" {
+  name     = "${var.project}_rg"
+  location = var.location
+}
+
+resource "azurerm_storage_account" "storage_account" {
+  name                     = "${var.project}acc"
+  resource_group_name      = azurerm_resource_group.resource_group.name
+  location                 = var.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+}
+
+resource "azurerm_service_plan" "service_plan" {
+  name                = "${var.project}_plan"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.resource_group.name
+  os_type             = "Linux"
+  sku_name            = "Y1"
+}
+
+resource "azurerm_storage_container" "storage_container" {
+  name                  = "${var.project}cn"
+  storage_account_name  = azurerm_storage_account.storage_account.name 
+  
+}
+
 resource "azurerm_application_insights" "insights" {
   name                = "${var.project}-insights"
-  location            = var.resource_group_location
-  resource_group_name = var.resource_group_name
-  application_type    = "Web"
+  location            = azurerm_resource_group.resource_group.location
+  resource_group_name = azurerm_resource_group.resource_group.name
+  application_type    = "web"
 }
 
 
 resource "azurerm_linux_function_app" "function_app" {
   name                       = "${var.project}-function-app"
-  resource_group_name        = var.resource_group_name
-  location                   = var.resource_group_name
-  storage_account_name       = var.storage_account_name
-  storage_account_access_key = var.storage_account_access_key
-  service_plan_id            = var.service_plan_id
+  resource_group_name        = azurerm_resource_group.resource_group.name
+  location                   = azurerm_resource_group.resource_group.location
+  storage_account_name       = azurerm_storage_account.storage_account.name
+  storage_account_access_key = azurerm_storage_account.storage_account.primary_access_key
+  service_plan_id            = azurerm_service_plan.service_plan.id
 
-  app_settings = {}
+  app_settings = {
 
-  tags = {
-    environment = var.environment
   }
+
 
   site_config {
     application_stack {
       python_version = "3.9" 
     }
-    WEBSITE_RUN_FROM_PACKAGE = ""
-    FUNCTIONS_WORKER_RUNTIME = "node"
-    application_insights_key = azurerm_application_insight.insights.instrumentation_key
+    application_insights_key =  azurerm_application_insights.insights.instrumentation_key
+    application_insights_connection_string = azurerm_application_insights.insights.connection_string
   }
 }
 
-resource "azurerm_linux_function_app_slot" "example" {
-  name                 = "${azurerm_linux_function_app.function_app.name}-dev"
+/*
+resource "azurerm_linux_function_app_slot" "app_slot" {
+  name                 = "${var.project}-function-app-dev"
   function_app_id      = azurerm_linux_function_app.function_app.id
-  storage_account_name = var.storage_account_name
+  storage_account_name = azurerm_storage_container.storage_container.name
+
+  app_settings = {
+  }
 
   site_config {
-    application_insights_key = azurerm_application_insight.insights.instrumentation_key
-    WEBSITE_RUN_FROM_PACKAGE = ""
+    application_insights_key = azurerm_application_insights.insights.instrumentation_key
+    application_insights_connection_string = azurerm_application_insights.insights.connection_string
+    
   }
 }
+*/
