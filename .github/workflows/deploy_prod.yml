@@ -11,7 +11,7 @@ on:
 
 env:
   SLOT_NAME: dev
-  WEBAPP_NAME: msapi-dev-function-app
+  WEBAPP_NAME: msapi-function-app
   RESOURCE_GROUP: msapi_dev_rg
 
 jobs:
