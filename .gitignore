@@ -136,3 +136,4 @@ old/
 *.tfstate.backup
 tests.py
 general_20220203.txt
+.terraform.lock.hcl
