@@ -36,7 +36,7 @@ resource "azurerm_service_plan" "service_plan" {
 }
 
 resource "azurerm_storage_container" "storage_container" {
-  name                  = "${var.project}_cn"
+  name                  = "${var.project}cn"
   storage_account_name  = azurerm_storage_account.storage_account.name 
   
 }
@@ -44,7 +44,11 @@ resource "azurerm_storage_container" "storage_container" {
 output "resource_group_name" {value = azurerm_resource_group.resource_group.name}
 output "resource_group_location" {value = azurerm_resource_group.resource_group.location}
 output "storage_account_name" {value = azurerm_storage_account.storage_account.name}
-output "storage_account_access_key" {value = azurerm_storage_account.storage_account.primary_access_key}
+output "storage_account_access_key" {
+  value = azurerm_storage_account.storage_account.primary_access_key 
+  sensitive = true
+  }
+  
 output "service_plan_id" {value = azurerm_service_plan.service_plan.id}
 output "storage_container_name" {value = azurerm_storage_container.storage_container.name}
 output "project" {value = var.project}
