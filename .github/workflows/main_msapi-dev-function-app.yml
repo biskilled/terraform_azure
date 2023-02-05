@@ -15,8 +15,8 @@ on:
     workflows: ["Terraform deploy resources"]
     types:
       - completed
-    #branches:
-    #  - dev
+    branches:
+      - dev
     paths:
       - 'msapi-function-app/**'
     
