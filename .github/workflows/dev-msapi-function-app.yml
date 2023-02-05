@@ -15,7 +15,7 @@ name: Build and deploy to Azure Function App - msapi-dev-function-app
 on:
   push:
     branches:
-      - dev
+      - kuku
     paths:
       - 'msapi-function-app/**'
 
