@@ -60,5 +60,5 @@ resource "azurerm_linux_function_app" "function_app" {
     application_stack {
       python_version = "3.9"
     }
-   }
+  }
 }
