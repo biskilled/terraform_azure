@@ -8,7 +8,7 @@ terraform {
   required_version = ">=1.3.6"
 
   backend "azurerm" {
-    resource_group_name  = "tfstatesrg"
+    resource_group_name  = "DefaultResourceGroup-EUS"
     storage_account_name = "tfstatessa1"
     container_name       = "tfstatessac"
     key                  = "tfstatessac.tfstate"
@@ -47,13 +47,6 @@ resource "azurerm_storage_container" "storage_container" {
 
 }
 
-resource "azurerm_application_insights" "insights" {
-  name                = "${var.project}-insights"
-  location            = azurerm_resource_group.resource_group.location
-  resource_group_name = azurerm_resource_group.resource_group.name
-  application_type    = "web"
-}
-
 
 resource "azurerm_linux_function_app" "function_app" {
   name                       = "${var.project}-function-app"
@@ -76,4 +69,3 @@ resource "azurerm_linux_function_app" "function_app" {
     #application_insights_connection_string = azurerm_application_insights.insights.connection_string
   }
 }
-
