@@ -1,4 +1,4 @@
-name: deploy resources using Terraform
+name: Terraform deploy resources
 
 on:
   push:
