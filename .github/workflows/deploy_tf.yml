@@ -20,8 +20,6 @@ jobs:
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
       TF_ACTIONS_VERSION: 1.3.6
     runs-on: ubuntu-latest
-    permissions:
-      pull-request: write
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
