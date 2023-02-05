@@ -1,5 +1,3 @@
-### INSTALL FIRST TIME CONFIGURATION ###
-
 terraform {
   required_providers {
     azurerm = {
@@ -10,16 +8,17 @@ terraform {
   required_version = ">=1.3.6"
 
   backend "azurerm" {
-    resource_group_name  = "tamopstfstates"
-    storage_account_name = "tfstatedevops"
-    container_name       = "terraformgithubexample"
-    key                  = "terraformgithubexample.tfstate"
+    resource_group_name  = "tfstatesrg"
+    storage_account_name = "tfstatessa1"
+    container_name       = "tfstatessac"
+    key                  = "tfstatessac.tfstate"
   }
 }
 
 provider "azurerm" {
   features {}
 }
+
 
 resource "azurerm_resource_group" "resource_group" {
   name     = "${var.project}_rg"
@@ -34,7 +33,6 @@ resource "azurerm_storage_account" "storage_account" {
   account_replication_type = "LRS"
 }
 
-
 resource "azurerm_service_plan" "service_plan" {
   name                = "${var.project}_plan"
   location            = var.location
@@ -43,37 +41,39 @@ resource "azurerm_service_plan" "service_plan" {
   sku_name            = "Y1"
 }
 
+resource "azurerm_storage_container" "storage_container" {
+  name                 = "${var.project}cn"
+  storage_account_name = azurerm_storage_account.storage_account.name
+
+}
+
+resource "azurerm_application_insights" "insights" {
+  name                = "${var.project}-insights"
+  location            = azurerm_resource_group.resource_group.location
+  resource_group_name = azurerm_resource_group.resource_group.name
+  application_type    = "web"
+}
+
 
 resource "azurerm_linux_function_app" "function_app" {
-  name                       = "${var.project}-${var.environment}-function-app"
+  name                       = "${var.project}-function-app"
   resource_group_name        = azurerm_resource_group.resource_group.name
   location                   = azurerm_resource_group.resource_group.location
   storage_account_name       = azurerm_storage_account.storage_account.name
   storage_account_access_key = azurerm_storage_account.storage_account.primary_access_key
   service_plan_id            = azurerm_service_plan.service_plan.id
 
+  app_settings = {
 
-  app_settings = {}
-
-  tags = {
-    environment = var.environment
   }
+
 
   site_config {
     application_stack {
       python_version = "3.9"
     }
+    application_insights_key               = azurerm_application_insights.insights.instrumentation_key
+    application_insights_connection_string = azurerm_application_insights.insights.connection_string
   }
 }
 
-/*
-module "api-1" {
-  source = "../api-1"
-  resource_group_name = azurerm_resource_group.resource_group.name
-  resource_group_location = azurerm_resource_group.resource_group.location
-  storage_account_name= azurerm_storage_account.storage_account.name
-  storage_account_access_key= azurerm_storage_account.storage_account.primary_access_key
-  service_plan_id= azurerm_service_plan.service_plan.id
-  environment = var.environment
-}
-*/

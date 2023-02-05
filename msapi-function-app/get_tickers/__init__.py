@@ -1,8 +1,9 @@
 import logging
+import json
 
 import azure.functions as func
 
-from .methods import get_ticker_price_changed
+from get_tickers.methods import get_tickers_marketstack
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
@@ -20,15 +21,15 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             ticker = req_body.get('ticker')
             start_date=req_body.get('start_date')
             end_date=req_body.get('end_date')
-
-    logging.info ("get_ticker_price_changed: Ticker:{ticker}, Start_date:{start_date}, End_date:{end_date}")
-
-
+    
+    
     if ticker:
-        logging.info ("get_ticker_price_changed: Ticker:{ticker}, Start_date:{start_date}, End_date:{end_date}")
-        data = get_ticker_price_changed(ticker=ticker, start_date=start_date, end_date=end_date)
-        return func.HttpResponse(res, status_code=200)
+        logging.info (f"init:main: start to get_tickers: Ticker:{ticker}, Start_date:{start_date}, End_date:{end_date}")
+        api = get_tickers_marketstack()
+        res = api.get_tickers_OHLCV(ticker=ticker, start_date=start_date, end_date=end_date)
+        return func.HttpResponse(json.dumps(res), status_code=200)
+    
     else:
-        res = {"error":"Ticker is not provided"}
-        logging.info (res)
-        return func.HttpResponse(err, status_code=400)
+        err = {"error":"Ticker is not provided"}
+        logging.info (err)
+        return func.HttpResponse(json.dumps(err), status_code=400)
