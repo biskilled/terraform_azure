@@ -42,9 +42,9 @@ resource "azurerm_service_plan" "service_plan" {
 }
 
 resource "azurerm_storage_container" "storage_container" {
-  name                  = "${var.project}cn"
-  storage_account_name  = azurerm_storage_account.storage_account.name 
-  
+  name                 = "${var.project}cn"
+  storage_account_name = azurerm_storage_account.storage_account.name
+
 }
 
 resource "azurerm_application_insights" "insights" {
@@ -70,9 +70,9 @@ resource "azurerm_linux_function_app" "function_app" {
 
   site_config {
     application_stack {
-      python_version = "3.9" 
+      python_version = "3.9"
     }
-    application_insights_key =  azurerm_application_insights.insights.instrumentation_key
+    application_insights_key               = azurerm_application_insights.insights.instrumentation_key
     application_insights_connection_string = azurerm_application_insights.insights.connection_string
   }
 }

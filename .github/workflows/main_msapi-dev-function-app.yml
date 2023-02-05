@@ -10,12 +10,12 @@ on:
     workflows: ["deploy resources using Terraform"]
     types:
       - completed
-      
-    push:
-      branches:
-        - dev
-      paths:
-        - 'msapi-dev-function-app/**'
+
+  push:
+    branches:
+      - dev
+    paths:
+      - 'msapi-dev-function-app/**'
   
   workflow_dispatch:
 
