@@ -77,19 +77,3 @@ resource "azurerm_linux_function_app" "function_app" {
   }
 }
 
-/*
-resource "azurerm_linux_function_app_slot" "app_slot" {
-  name                 = "${var.project}-function-app-dev"
-  function_app_id      = azurerm_linux_function_app.function_app.id
-  storage_account_name = azurerm_storage_container.storage_container.name
-
-  app_settings = {
-  }
-
-  site_config {
-    application_insights_key = azurerm_application_insights.insights.instrumentation_key
-    application_insights_connection_string = azurerm_application_insights.insights.connection_string
-    
-  }
-}
-*/
