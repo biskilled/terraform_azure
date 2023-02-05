@@ -7,7 +7,7 @@ name: Build and deploy Python project to Azure Function App - msapi-function-app
 on:
   push:
     branches:
-      - dev
+      - kuku
   workflow_dispatch:
 
 env:
