@@ -5,6 +5,14 @@
 name: Build and deploy Python project to Azure Function App - msapi-function-app
 
 on:
+  workflow_run:
+    workflows: ["Terraform deploy resources"]
+    types:
+      - completed
+    branches:
+      - dev
+    paths:
+      - 'msapi-function-app/**'
   push:
     branches:
       - dev
