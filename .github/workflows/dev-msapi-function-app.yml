@@ -18,7 +18,9 @@ on:
     branches:
       - dev
     paths:
-      - 'msapi-function-app/**' 
+      - 'msapi-function-app/**'
+  pull_request:
+   
   workflow_dispatch:
 
 env:
