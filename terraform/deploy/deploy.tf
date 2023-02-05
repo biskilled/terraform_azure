@@ -13,6 +13,7 @@ terraform {
     container_name       = "tfstatessac"
     key                  = "tfstatessac.tfstate"
   }
+
 }
 
 provider "azurerm" {
@@ -21,12 +22,12 @@ provider "azurerm" {
 
 
 resource "azurerm_resource_group" "resource_group" {
-  name     = "${var.project}_rg"
+  name     = "${var.project}_rsg"
   location = var.location
 }
 
 resource "azurerm_storage_account" "storage_account" {
-  name                     = "${var.project}acc"
+  name                     = "${var.project}acco"
   resource_group_name      = azurerm_resource_group.resource_group.name
   location                 = var.location
   account_tier             = "Standard"
@@ -34,19 +35,20 @@ resource "azurerm_storage_account" "storage_account" {
 }
 
 resource "azurerm_service_plan" "service_plan" {
-  name                = "${var.project}_plan"
+  name                = "${var.project}_splan"
   location            = var.location
   resource_group_name = azurerm_resource_group.resource_group.name
   os_type             = "Linux"
   sku_name            = "Y1"
 }
 
+/*
 resource "azurerm_storage_container" "storage_container" {
   name                 = "${var.project}cn"
   storage_account_name = azurerm_storage_account.storage_account.name
 
 }
-
+*/
 
 resource "azurerm_linux_function_app" "function_app" {
   name                       = "${var.project}-function-app"
