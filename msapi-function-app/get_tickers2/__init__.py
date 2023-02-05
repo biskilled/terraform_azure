@@ -1,6 +1,7 @@
 import logging
 import json
 
+#### Hallow 
 
 import azure.functions as func
 from get_tickers2.methods import get_tickers_marketstack
