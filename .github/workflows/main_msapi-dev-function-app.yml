@@ -13,12 +13,12 @@ on:
       - dev
     paths:
       - 'msapi-dev-function-app/**'
-      
-    push:
-      branches:
-        - dev
-      paths:
-        - 'msapi-dev-function-app/**'
+
+    #push:
+    #  branches:
+    #    - dev
+    #  paths:
+    #    - 'msapi-dev-function-app/**'
     
   workflow_dispatch:
 
