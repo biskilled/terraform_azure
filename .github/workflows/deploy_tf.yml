@@ -3,10 +3,13 @@ name: Terraform deploy resources
 on:
   push:
     branches:
-      - kuku
+      - main
+      - dev
+    paths:
+      - 'terraform/**'
   pull_request:
     branches:
-      - kuku  
+      - main  
   workflow_dispatch:
 
 jobs:
