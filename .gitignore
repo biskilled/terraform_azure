@@ -134,5 +134,4 @@ old/
 .vscode/
 *.tfstate
 *.tfstate.backup
-*.txt
 tests.py

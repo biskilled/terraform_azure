@@ -1,0 +1,138 @@
+Terraform : 
+az login			--> to authenticate into azure 
+
+ {
+    "cloudName": "AzureCloud",
+    "homeTenantId": "639335a1-8d8d-4349-a9e3-e2f97a609d8c",
+    "id": "fa18ef75-efd0-49e5-8096-2773ccfafa06",
+    "isDefault": true,
+    "managedByTenants": [],
+    "name": "Azure subscription 1",
+    "state": "Enabled",
+    "tenantId": "639335a1-8d8d-4349-a9e3-e2f97a609d8c",
+    "user": {
+      "name": "tal@biskilled.com",
+      "type": "user"
+    }
+  }
+
+az account set --subscription "fa18ef75-efd0-49e5-8096-2773ccfafa06"
+az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/fa18ef75-efd0-49e5-8096-2773ccfafa06" 
+	{
+	  "appId": "cc61659b-a582-4c61-bd88-6310820d8ab5",
+	  "displayName": "azure-cli-2023-01-31-16-31-10",
+	  "password": "sTD8Q~N117HqnIMO-hgF~QmvFnjwK~Evi36Ehb3u",
+	  "tenant": "639335a1-8d8d-4349-a9e3-e2f97a609d8c"
+	}
+	
+Get Azure crenetials to access into the app:
+az ad sp create-for-rbac --name "sp-msapi-dev-function-app" --sdk-auth --role contributor --scopes /subscriptions/fa18ef75-efd0-49e5-8096-2773ccfafa06/resourceGroups/msapi_rg/providers/Microsoft.Web/sites/msapi-function-app
+
+Add AZURE_CREDENTIALS
+{
+  "clientId": "fe9008fe-4005-42f4-bfda-8b2642ba5272",
+  "clientSecret": "W5L8Q~C8iEPhdtdb9xlO-mhukLnGF0H1kCcc2bxv",
+  "subscriptionId": "fa18ef75-efd0-49e5-8096-2773ccfafa06",
+  "tenantId": "639335a1-8d8d-4349-a9e3-e2f97a609d8c",
+  "activeDirectoryEndpointUrl": "https://login.microsoftonline.com",
+  "resourceManagerEndpointUrl": "https://management.azure.com/",
+  "activeDirectoryGraphResourceId": "https://graph.windows.net/",
+  "sqlManagementEndpointUrl": "https://management.core.windows.net:8443/",
+  "galleryEndpointUrl": "https://gallery.azure.com/",
+  "managementEndpointUrl": "https://management.core.windows.net/"
+}
+
+
+
+Set up envirement variables using PS on local machine 
+$ $Env:ARM_CLIENT_ID = "cc61659b-a582-4c61-bd88-6310820d8ab5"
+$ $Env:ARM_CLIENT_SECRET = "sTD8Q~N117HqnIMO-hgF~QmvFnjwK~Evi36Ehb3u"
+$ $Env:ARM_SUBSCRIPTION_ID = "fa18ef75-efd0-49e5-8096-2773ccfafa06"
+$ $Env:ARM_TENANT_ID = "639335a1-8d8d-4349-a9e3-e2f97a609d8c"
+
+In github store all variable unde settings->secret 
+ARM_CLIENT_ID = "cc61659b-a582-4c61-bd88-6310820d8ab5"
+ARM_CLIENT_SECRET = "sTD8Q~N117HqnIMO-hgF~QmvFnjwK~Evi36Ehb3u"
+ARM_SUBSCRIPTION_ID = "fa18ef75-efd0-49e5-8096-2773ccfafa06"
+ARM_TENANT_ID = "639335a1-8d8d-4349-a9e3-e2f97a609d8c"
+
+Git repo:
+	git clone https://github.com/biskilled/terraform_azure.git
+	cd C:\Users\Owner\Documents\PROJECTS
+	
+1. Init deploy - deploy basic services - init_azure
+	
+
+	# Create Resource Group
+	## There is defaults : DefaultResourceGroup-EUS
+	az group create -n tfstatesrg -l eastus
+	
+ 
+	# Create Storage Account
+	az storage account create -n tfstatessa1 -g DefaultResourceGroup-EUS -l westeurope --sku Standard_LRS
+ 
+	# Create Storage Account Container
+	az storage container create --account-name tfstatessa1 -n tfstatessac
+	
+
+	cd terraform/init_azure 
+	terraform init 
+	terraform plan
+	terraform apply
+
+	export plan:
+		terraform plan -out=init_azure.tfplan
+	
+	project = "msapi"
+	resource_group_location = "westeurope"
+	resource_group_name = "msapi_rg"
+	service_plan_id = "/subscriptions/fa18ef75-efd0-49e5-8096-2773ccfafa06/resourceGroups/msapi_rg/providers/Microsoft.Web/serverfarms/msapi_plan"
+	storage_account_access_key = <sensitive>
+	storage_account_name = "msapiacc"
+	storage_container_name = "msapicn"
+	
+	terraform import resource_group.msapi_rg /subscriptions/fa18ef75-efd0-49e5-8096-2773ccfafa06/resourceGroups/msapi_rg
+	terraform import azurerm_resource_group.resource_group /subscriptions/fa18ef75-efd0-49e5-8096-2773ccfafa06/resourceGroups/msapi_rg
+	
+	
+Exec: 
+	terraform init 
+	terraform plan -var-file=tf/terraform.tfvars
+	
+	azurerm_function_app_function 
+	
+	
+Add publish secret :
+	AZURE_FUNCTIONAPP_PUBLISH_PROFILE	--> function app's Overview page, select Get publish profile.
+
+Flow: 
+	deploy to slot dev using push/pr (dev brunch)
+	merged pr with main -> code deployes to stg env -> owner approved -> merged to prod ! 
+	
+	deploy_to_dev -> 
+
+Using terraform cloud : 
+api token: LVoz0kNokzsCDw.atlasv1.6of0niQGx5SytyHYvPu0LdngpJkJ01IUCGmV55qe97VktuMEyA7LIQ680TOIen5Dqeo
+
+git delete brunch 
+	git branch -d dev 
+	git push origin --delete dev
+
+git crate new brunch 
+	git checkout -b dev 
+	git push origin dev
+	
+git merge :
+	git checkout main  
+	git merge dev
+	git push -u origin main  
+
+Add API KEY under app configuration setting : API_KEY: '07a347c645898d0bda9f41e7ed0f9e5d'
+
+API Calls :
+	prod: https://msapi-function-app.azurewebsites.net/api/get_tickers?
+	
+	func azure functionapp publish msapi-function-app --no-build
+	
+# install requests 
+requests
