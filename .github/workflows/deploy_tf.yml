@@ -3,10 +3,10 @@ name: Terraform deploy resources
 on:
   push:
     branches:
-      - dev
+      - kuku
   pull_request:
     branches:
-      - main  
+      - kuku  
   workflow_dispatch:
 
 jobs:
