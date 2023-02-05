@@ -65,6 +65,6 @@ jobs:
           app-name: 'msapi-function-app'
           slot-name: 'Production'
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_74581B6D1991401EA93CC37A86BDA8EC }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_90D13327E36444A8B796DE8D56ECA106 }}
           scm-do-build-during-deployment: true
           enable-oryx-build: true
