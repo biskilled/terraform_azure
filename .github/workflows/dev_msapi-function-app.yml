@@ -69,7 +69,7 @@ jobs:
         id: deploy-to-function
         with:
           app-name: 'msapi-function-app'
-          slot-name: 'msapi-function-app/dev'
+          slot-name: 'dev'
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DEV }}
           scm-do-build-during-deployment: true
